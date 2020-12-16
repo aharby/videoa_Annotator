@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import  QFileDialog,QStyle
 
 
 
-class Video():
+class Video:
     
     def __init__(self, mainWindow):
         
