@@ -6,11 +6,12 @@
 from PyQt5.QtCore import  Qt
 from PyQt5.QtWidgets import (  QHBoxLayout, QLabel,
         QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget)
-from PyQt5.QtWidgets import QMainWindow, QAction
+from PyQt5.QtWidgets import QMainWindow, QAction, QMessageBox
 from PyQt5.QtGui import QIcon
 import sys
 
 from Video import Video
+from Sync import Sync
 
 class VideoWindow(QMainWindow):
 
@@ -19,13 +20,17 @@ class VideoWindow(QMainWindow):
         self.setWindowTitle("Video Annotator") 
 
 
-        self.video1 = Video(self)
-        self.video2 = Video(self)
+        self.faceVideo = Video(self)
+        self.video360 = Video(self)
+        self.beepRef = Video(self)
 
         self.playButton = QPushButton()
         self.playButton.setEnabled(False)
         self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
         self.playButton.clicked.connect(self.play)
+
+        self.syncButton= QPushButton('Sync')
+        self.syncButton.clicked.connect(self.syncronize)
 
         self.positionSlider = QSlider(Qt.Horizontal)
         self.positionSlider.setRange(0, 0)
@@ -36,11 +41,13 @@ class VideoWindow(QMainWindow):
                 QSizePolicy.Maximum)
 
         # Create new action
-        openAction1 = QAction(QIcon('open.png'), '&Open1', self)        
-        openAction2 = QAction(QIcon('open.png'), '&Open2', self)        
+        openAction1 = QAction(QIcon('open.png'), '&open face video', self)        
+        openAction2 = QAction(QIcon('open.png'), '&open 360 video', self)        
+        openAction3 = QAction(QIcon('open.png'), '&Open reference beep', self)        
 
-        openAction1.triggered.connect(self.video1.openFile)
-        openAction2.triggered.connect(self.video2.openFile)
+        openAction1.triggered.connect(self.faceVideo.openFile)
+        openAction2.triggered.connect(self.video360.openFile)
+        openAction3.triggered.connect(self.beepRef.openFile)
 
         # Create exit action
         exitAction = QAction(QIcon('exit.png'), '&Exit', self)        
@@ -54,6 +61,7 @@ class VideoWindow(QMainWindow):
         #fileMenu.addAction(newAction)
         fileMenu.addAction(openAction1)
         fileMenu.addAction(openAction2)
+        fileMenu.addAction(openAction3)
         fileMenu.addAction(exitAction)
 
         # Create a widget for window contents
@@ -64,24 +72,41 @@ class VideoWindow(QMainWindow):
         controlLayout = QHBoxLayout()
         controlLayout.setContentsMargins(0, 0, 0, 0)
         controlLayout.addWidget(self.playButton)
+        controlLayout.addWidget(self.syncButton)
         controlLayout.addWidget(self.positionSlider)
 
         layout = QVBoxLayout()
-        layout.addWidget(self.video1.videoWidget)
-        layout.addWidget(self.video2.videoWidget)
+        layout.addWidget(self.faceVideo.videoWidget)
+        layout.addWidget(self.video360.videoWidget)
         layout.addLayout(controlLayout)
         layout.addWidget(self.errorLabel)
 
         # Set widget to contain window contents
         wid.setLayout(layout)
 
+    def syncronize(self):
+        vRef= self.beepRef.fileName
+        v1= self.faceVideo.fileName
+        if not ((vRef=='')|(v1=='')):
+            sync= Sync(vRef,v1)
+            syncedFaceVid= sync.get_synced_video()
+            if syncedFaceVid != '':
+                self.faceVideo.setMediaPlayer(syncedFaceVid)
+                self.video360.setMediaPlayer(self.video360.fileName)
+                QMessageBox.about(self, 'video Annotator', 'sync done!')
+            else:
+                QMessageBox.about(self, 'video Annotator', 'sync failed. Pleas try again')
+        else:
+            QMessageBox.about(self, 'video Annotator', 'please upload videos first')
+            
+    
     def play(self):
-        self.video1.play()
-        self.video2.play()
+        self.faceVideo.play()
+        self.video360.play()
         
     def setPosition(self, position):
-        self.video1.setPosition(position)
-        self.video2.setPosition(position)
+        self.faceVideo.setPosition(position)
+        self.video360.setPosition(position)
         
     def positionChanged(self, position):
         self.positionSlider.setValue(position)

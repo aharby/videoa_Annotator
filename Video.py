@@ -13,6 +13,8 @@ class Video:
         
         self.mainWindow= mainWindow
         
+        self.fileName=''
+        
         self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
 
         self.videoWidget = QVideoWidget()
@@ -29,6 +31,9 @@ class Video:
                 QDir.homePath())
 
         if fileName != '':
+            self.fileName= fileName
+   
+    def setMediaPlayer(self, fileName):
             self.mediaPlayer.setMedia(
                     QMediaContent(QUrl.fromLocalFile(fileName)))
             self.mainWindow.playButton.setEnabled(True)
