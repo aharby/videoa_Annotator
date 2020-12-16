@@ -1,6 +1,8 @@
 # PyQt5 Video player
 #!/usr/bin/env python
 
+#https://pythonprogramminglanguage.com/pyqt5-video-widget/
+
 from PyQt5.QtCore import  Qt
 from PyQt5.QtWidgets import (  QHBoxLayout, QLabel,
         QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget)
