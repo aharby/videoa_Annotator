@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import QMainWindow, QAction
 from PyQt5.QtGui import QIcon
 import sys
 
-import Video
+from Video import Video
 
 class VideoWindow(QMainWindow):
 
