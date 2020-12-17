@@ -95,7 +95,7 @@ class VideoWindow(QMainWindow):
                 self.video360.setMediaPlayer(self.video360.fileName)
                 QMessageBox.about(self, 'video Annotator', 'Sync process is done!')
             else:
-                QMessageBox.about(self, 'video Annotator', 'Sync process failed. Pleas try again')
+                QMessageBox.about(self, 'video Annotator', 'Sync process failed. Please try again.')
         else:
             QMessageBox.about(self, 'video Annotator', 'Please upload the videos first!')
             
