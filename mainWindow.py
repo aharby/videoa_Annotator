@@ -41,9 +41,9 @@ class VideoWindow(QMainWindow):
                 QSizePolicy.Maximum)
 
         # Create new action
-        openAction1 = QAction(QIcon('open.png'), '&open face video', self)        
-        openAction2 = QAction(QIcon('open.png'), '&open 360 video', self)        
-        openAction3 = QAction(QIcon('open.png'), '&Open reference beep', self)        
+        openAction1 = QAction(QIcon('open.png'), '&Upload Face Video', self)        
+        openAction2 = QAction(QIcon('open.png'), '&Upload 360 Video', self)        
+        openAction3 = QAction(QIcon('open.png'), '&Upload Reference Beep', self)        
 
         openAction1.triggered.connect(self.faceVideo.openFile)
         openAction2.triggered.connect(self.video360.openFile)
@@ -93,11 +93,11 @@ class VideoWindow(QMainWindow):
             if syncedFaceVid != '':
                 self.faceVideo.setMediaPlayer(syncedFaceVid)
                 self.video360.setMediaPlayer(self.video360.fileName)
-                QMessageBox.about(self, 'video Annotator', 'sync done!')
+                QMessageBox.about(self, 'video Annotator', 'Sync process is done!')
             else:
-                QMessageBox.about(self, 'video Annotator', 'sync failed. Pleas try again')
+                QMessageBox.about(self, 'video Annotator', 'Sync process failed. Pleas try again')
         else:
-            QMessageBox.about(self, 'video Annotator', 'please upload videos first')
+            QMessageBox.about(self, 'video Annotator', 'Please upload the videos first!')
             
     
     def play(self):
