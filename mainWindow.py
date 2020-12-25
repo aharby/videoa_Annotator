@@ -75,9 +75,12 @@ class VideoWindow(QMainWindow):
         controlLayout.addWidget(self.syncButton)
         controlLayout.addWidget(self.positionSlider)
 
-        layout = QVBoxLayout()
-        layout.addWidget(self.faceVideo.videoWidget)
-        layout.addWidget(self.video360.videoWidget)
+        videoLayout = QHBoxLayout()
+        videoLayout.addWidget(self.faceVideo.videoWidget)
+        videoLayout.addWidget(self.video360.videoWidget)
+        
+        layout= QVBoxLayout()
+        layout.addLayout(videoLayout)
         layout.addLayout(controlLayout)
         layout.addWidget(self.errorLabel)
 
