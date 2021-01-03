@@ -11,6 +11,7 @@ from PyQt5.QtGui import QIcon
 import sys
 
 from Video import Video
+from Dataset import Dataset
 from Sync import Sync
 
 class VideoWindow(QMainWindow):
@@ -23,6 +24,8 @@ class VideoWindow(QMainWindow):
         self.faceVideo = Video(self)
         self.video360 = Video(self)
         self.beepRef = Video(self)
+
+        self.dataset= Dataset(self)
 
         self.playButton = QPushButton()
         self.playButton.setEnabled(False)
@@ -41,13 +44,15 @@ class VideoWindow(QMainWindow):
                 QSizePolicy.Maximum)
 
         # Create new action
-        openAction1 = QAction(QIcon('open.png'), '&Upload Face Video', self)        
-        openAction2 = QAction(QIcon('open.png'), '&Upload 360 Video', self)        
-        openAction3 = QAction(QIcon('open.png'), '&Upload Reference Beep', self)        
+        openVideo1 = QAction(QIcon('open.png'), '&Upload Face Video', self)        
+        openVideo2 = QAction(QIcon('open.png'), '&Upload 360 Video', self)        
+        openRefVideo = QAction(QIcon('open.png'), '&Upload Reference Beep', self)  
+        openDataset = QAction(QIcon('open.png'),'&Upload Dataset',self)
 
-        openAction1.triggered.connect(self.faceVideo.openFile)
-        openAction2.triggered.connect(self.video360.openFile)
-        openAction3.triggered.connect(self.beepRef.openFile)
+        openVideo1.triggered.connect(self.faceVideo.openFile)
+        openVideo2.triggered.connect(self.video360.openFile)
+        openRefVideo.triggered.connect(self.beepRef.openFile)
+        openDataset.triggered.connect(self.dataset.openFile)
 
         # Create exit action
         exitAction = QAction(QIcon('exit.png'), '&Exit', self)        
@@ -59,10 +64,16 @@ class VideoWindow(QMainWindow):
         menuBar = self.menuBar()
         fileMenu = menuBar.addMenu('&File')
         #fileMenu.addAction(newAction)
-        fileMenu.addAction(openAction1)
-        fileMenu.addAction(openAction2)
-        fileMenu.addAction(openAction3)
-        fileMenu.addAction(exitAction)
+        fileMenu.addAction(openVideo1)
+        fileMenu.addAction(openVideo2)
+        fileMenu.addAction(openRefVideo)
+        fileMenu.addAction(openDataset)
+        
+        
+        #show menu
+        showMenu= menuBar.addMenu('&Show')
+        
+
 
         # Create a widget for window contents
         wid = QWidget(self)
@@ -75,13 +86,26 @@ class VideoWindow(QMainWindow):
         controlLayout.addWidget(self.syncButton)
         controlLayout.addWidget(self.positionSlider)
 
+        
+
+        #parameters Layout
+        self.label1 = QLabel('elapsed time:')
+        self.label2 = QLabel('speed:')
+        parameterLayout= QHBoxLayout()
+        parameterLayout.setContentsMargins(0, 0, 0, 0)
+        parameterLayout.addWidget(self.label1)
+        parameterLayout.addWidget(self.label2)
+        
+        #video layout
         videoLayout = QHBoxLayout()
         videoLayout.addWidget(self.faceVideo.videoWidget)
         videoLayout.addWidget(self.video360.videoWidget)
         
+        
         layout= QVBoxLayout()
         layout.addLayout(videoLayout)
         layout.addLayout(controlLayout)
+        layout.addLayout(parameterLayout)
         layout.addWidget(self.errorLabel)
 
         # Set widget to contain window contents
@@ -113,7 +137,11 @@ class VideoWindow(QMainWindow):
         
     def positionChanged(self, position):
         self.positionSlider.setValue(position)
+        self.dataset.showTimeElapesed(position)
 
+        if self.dataset.fileName !='' :
+            self.dataset.showParameter(position)
+        
     def durationChanged(self, duration):
         self.positionSlider.setRange(0, duration)
     
