@@ -24,7 +24,7 @@ class Dataset:
             
     def showTimeElapesed(self,position):
         elapsedtime= position/1000
-        self.mainWindow.label1.setText('elapsed time: '+str(elapsedtime))
+        self.mainWindow.label1.setText(str(elapsedtime))
         
     def showParameter(self,position):
         valuelist = list(self.dataFrame['Time'])
