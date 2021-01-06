@@ -9,6 +9,6 @@ from mainWindow import VideoWindow
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     player = VideoWindow()
-    player.resize(640, 480)
+    player.resize(1205, 916)
     player.show()
     sys.exit(app.exec_())
