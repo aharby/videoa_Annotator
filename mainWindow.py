@@ -44,7 +44,7 @@ class VideoWindow(QMainWindow):
         # self.faceVideo.videoWidget.setGeometry(QtCore.QRect(20, 370, 661, 351))
         # self.video360.videoWidget(self.frame)
         # self.video360.videoWidget.setGeometry(QtCore.QRect(20, 10, 661, 351))
-        videolayout = QVBoxLayout()
+        videolayout = QVBoxLayout(self.frame)
         videolayout.addWidget(self.faceVideo.videoWidget)
         self.faceVideo.videoWidget.setGeometry(QtCore.QRect(20, 10, 661, 351))
         videolayout.addWidget(self.video360.videoWidget)
