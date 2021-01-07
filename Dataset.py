@@ -9,9 +9,7 @@ class Dataset:
         self.mainWindow= mainWindow
         
         self.fileName = ''
-        
-        
-        
+
 
     def openFile(self):
         fileName, _ = QFileDialog.getOpenFileName(self.mainWindow, "Open Excel",

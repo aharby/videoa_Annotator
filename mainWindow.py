@@ -7,7 +7,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (  QHBoxLayout, QLabel, QTableWidget,
         QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QHBoxLayout, QWidget)
-from PyQt5.QtWidgets import QMainWindow, QAction, QMessageBox, QFrame
+from PyQt5.QtWidgets import QMainWindow, QAction, QMessageBox, QFrame, QComboBox
 from PyQt5.QtGui import QIcon
 import sys
 from PyQt5 import QtCore
@@ -39,11 +39,7 @@ class VideoWindow(QMainWindow):
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Sunken)
 
-        # wid.addWidget(self.faceVideo.videoWidget)
-        # wid.addWidget(self.video360.video)
-        # self.faceVideo.videoWidget.setGeometry(QtCore.QRect(20, 370, 661, 351))
-        # self.video360.videoWidget(self.frame)
-        # self.video360.videoWidget.setGeometry(QtCore.QRect(20, 10, 661, 351))
+
         videolayout = QVBoxLayout(self.frame)
         videolayout.addWidget(self.faceVideo.videoWidget)
         self.faceVideo.videoWidget.setGeometry(QtCore.QRect(20, 10, 661, 351))
@@ -64,17 +60,11 @@ class VideoWindow(QMainWindow):
         self.positionSlider.setGeometry(QtCore.QRect(70, 730, 541, 31))
         self.positionSlider.setRange(0, 0)
         self.positionSlider.sliderMoved.connect(self.setPosition)
+
         self.label1 = QLabel('00:00', self.frame)
         self.label1.setAlignment((Qt.AlignCenter | Qt.AlignVCenter))
         self.label1.setGeometry(QtCore.QRect(620, 730, 61, 31))
 
-        # parameterLayout= QHBoxLayout()
-        # parameterLayout.addWidget(self.positionSlider)
-        # parameterLayout.addWidget(self.label1)
-        # self.positionSlider.setGeometry(QtCore.QRect(70, 730, 580, 31)
-
-        # self.label1 = QLabel('Elapsed time', self.frame)
-        # self.label1.setGeometry(QtCore.QRect(620, 730, 61, 31))
         self.label2 = QLabel('Speed:', self.frame)
         self.label2.setGeometry(QtCore.QRect(30, 770, 141, 20))
 
@@ -83,9 +73,6 @@ class VideoWindow(QMainWindow):
         self.errorLabel.setSizePolicy(QSizePolicy.Preferred,
                 QSizePolicy.Maximum)
 
-        # layout= QVBoxLayout(self.frame)
-        # layout.addLayout(videolayout)
-        # layout.addLayout(parameterLayout)
 
         ###########
         # Frame 2 #
@@ -104,12 +91,35 @@ class VideoWindow(QMainWindow):
 
         #Might be for Visualization
 
-        self.frame_3 = QFrame(wid)
-        self.frame_3.setGeometry(QtCore.QRect(729, 489, 461, 361))
-        self.frame_3.setFrameShape(QFrame.StyledPanel)
-        self.frame_3.setFrameShadow(QFrame.Sunken)
+        self.frame3 = QFrame(wid)
+        self.frame3.setGeometry(QtCore.QRect(729, 489, 461, 361))
+        self.frame3.setFrameShape(QFrame.StyledPanel)
+        self.frame3.setFrameShadow(QFrame.Sunken)
 
+        self.pushButton = QPushButton(self.frame3)
+        self.pushButton.setGeometry(QtCore.QRect(270, 10, 161, 31))
+        self.pushButton.setObjectName("pushButton")
+        
+        self.comboBox = QComboBox(self.frame3)
+        self.comboBox.setGeometry(QtCore.QRect(20, 10, 211, 31))
+        self.comboBox.setObjectName("comboBox")
 
+        ##########################
+        # Frame 4 inside Frame 3 #
+        ##########################
+
+        self.frame4 = QFrame(self.frame3)
+        self.frame4.setGeometry(QtCore.QRect(20, 60, 421, 281))
+        self.frame4.setAutoFillBackground(False)
+        self.frame4.setFrameShape(QFrame.StyledPanel)
+        self.frame4.setFrameShadow(QFrame.Sunken)
+        
+        self.label = QLabel(self.frame4)
+        self.label.setGeometry(QtCore.QRect(20, 20, 381, 241))
+        self.label.setAutoFillBackground(True)
+     
+
+        ########
         # Menu #
         ########
 
@@ -154,9 +164,9 @@ class VideoWindow(QMainWindow):
                 self.video360.setMediaPlayer(self.video360.fileName)
                 QMessageBox.about(self, 'video Annotator', 'Sync done!')
             else:
-                QMessageBox.about(self, 'video Annotator', 'Sync failed. Pleas try again')
+                QMessageBox.about(self, 'video Annotator', 'Sync failed. Please try again.')
         else:
-            QMessageBox.about(self, 'video Annotator', 'Please upload videos first')
+            QMessageBox.about(self, 'video Annotator', 'Please add videos first')
             
     
     def play(self):
