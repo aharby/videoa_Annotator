@@ -54,11 +54,11 @@ class VideoWindow(QMainWindow):
         self.annotationset = annotationSet(self)
 
         # Create new action
-        openVideo1 = QAction(QIcon('open.png'), '&Upload Face Video', self)        
-        openVideo2 = QAction(QIcon('open.png'), '&Upload 360 Video', self)        
-        openRefVideo = QAction(QIcon('open.png'), '&Upload Reference Beep', self)  
-        openDataset = QAction(QIcon('open.png'),'&Upload Dataset',self)
-        openAnnotation = QAction(QIcon('open.png'), '&Upload Annotation', self)
+        openVideo1 = QAction(QIcon('open.png'), '&Add Face Video', self)        
+        openVideo2 = QAction(QIcon('open.png'), '&Add 360 Video', self)        
+        openRefVideo = QAction(QIcon('open.png'), '&Add Reference Beep', self)  
+        openDataset = QAction(QIcon('open.png'),'&Add Dataset',self)
+        openAnnotation = QAction(QIcon('open.png'), '&Add Annotation', self)
 
         openVideo1.triggered.connect(self.faceVideo.openFile)
         openVideo2.triggered.connect(self.video360.openFile)
