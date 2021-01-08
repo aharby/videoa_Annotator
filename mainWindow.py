@@ -161,7 +161,7 @@ class VideoWindow(QMainWindow):
             else:
                 QMessageBox.about(self, 'video Annotator', 'Sync process failed. Please try again.')
         else:
-            QMessageBox.about(self, 'video Annotator', 'Please upload the videos first!')
+            QMessageBox.about(self, 'video Annotator', 'Please add the videos first!')
             
     def setLocalPosition(self, position):
         self.position = position
