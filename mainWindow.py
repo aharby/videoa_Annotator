@@ -13,6 +13,7 @@ import sys
 from Video import Video
 from Dataset import Dataset
 from Sync import Sync
+from FrameParameters import ShowFrameParameters
 
 class VideoWindow(QMainWindow):
 
@@ -26,7 +27,10 @@ class VideoWindow(QMainWindow):
         self.beepRef = Video(self)
 
         self.dataset= Dataset(self)
-
+        
+        
+        self.showFrameParameters = ShowFrameParameters(self)
+        
         self.playButton = QPushButton()
         self.playButton.setEnabled(False)
         self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
@@ -89,15 +93,9 @@ class VideoWindow(QMainWindow):
         
 
         #parameters Layout
-        self.label1 = QLabel('elapsed time:')
-        self.label2 = QLabel('speed:')
-        parameterLayout= QHBoxLayout()
-        parameterLayout.setContentsMargins(0, 0, 0, 0)
-        parameterLayout.addWidget(self.label1)
-        parameterLayout.addWidget(self.label2)
         
         #video layout
-        videoLayout = QHBoxLayout()
+        videoLayout = QVBoxLayout()
         videoLayout.addWidget(self.faceVideo.videoWidget)
         videoLayout.addWidget(self.video360.videoWidget)
         
@@ -105,11 +103,14 @@ class VideoWindow(QMainWindow):
         layout= QVBoxLayout()
         layout.addLayout(videoLayout)
         layout.addLayout(controlLayout)
-        layout.addLayout(parameterLayout)
         layout.addWidget(self.errorLabel)
+        
+        layoutMain= QHBoxLayout()
+        layoutMain.addLayout(layout)
+        layoutMain.addLayout(self.showFrameParameters.parametersLayout)
 
         # Set widget to contain window contents
-        wid.setLayout(layout)
+        wid.setLayout(layoutMain)
 
     def syncronize(self):
         vRef= self.beepRef.fileName
@@ -137,10 +138,9 @@ class VideoWindow(QMainWindow):
         
     def positionChanged(self, position):
         self.positionSlider.setValue(position)
-        self.dataset.showTimeElapesed(position)
+        self.showFrameParameters.setPosition(position)
+        self.showFrameParameters.update(position)
 
-        if self.dataset.fileName !='' :
-            self.dataset.showParameter(position)
         
     def durationChanged(self, duration):
         self.positionSlider.setRange(0, duration)
