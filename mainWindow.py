@@ -4,7 +4,7 @@
 #https://pythonprogramminglanguage.com/pyqt5-video-widget/
 
 from PyQt5.QtCore import  Qt
-from PyQt5.QtWidgets import (  QHBoxLayout, QLabel,
+from PyQt5.QtWidgets import (  QHBoxLayout,QGridLayout, QLabel,
         QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget)
 from PyQt5.QtWidgets import QMainWindow, QAction, QMessageBox
 from PyQt5.QtGui import QIcon
@@ -27,6 +27,7 @@ class VideoWindow(QMainWindow):
         self.video360 = Video(self)
         self.beepRef = Video(self)
         self.annotationTable = Table(["Time", "Attribute", "Entry"])
+        self.showParametersTable= Table(["parameter","value"])
         self.dataset= Dataset(self)
         self.annotationset = annotationSet(self)
         
@@ -40,7 +41,12 @@ class VideoWindow(QMainWindow):
         
         self.syncButton= QPushButton('Sync')
         self.syncButton.clicked.connect(self.syncronize)
-
+        
+        #annotation start and stop buttons
+        self.startAnnotationButton = QPushButton('start')
+        self.stopAnnotationButton = QPushButton('stop')
+        
+        #slider
         self.positionSlider = QSlider(Qt.Horizontal)
         self.positionSlider.setRange(0, 0)
         self.positionSlider.sliderMoved.connect(self.setPosition)
@@ -88,30 +94,49 @@ class VideoWindow(QMainWindow):
         self.setCentralWidget(wid)
 
         # Create layouts to place inside widget
-        controlLayout = QHBoxLayout()
+        buttonsLayout=  QHBoxLayout()
+        buttonsLayout.setContentsMargins(0, 0, 0, 0)
+        buttonsLayout.addWidget(self.playButton)
+        buttonsLayout.addWidget(self.syncButton)
+        #controlLayout.addWidget(self.positionSlider)
+        buttonsLayout.addWidget(self.startAnnotationButton)
+        buttonsLayout.addWidget(self.stopAnnotationButton)
+        
+        controlLayout = QVBoxLayout()
         controlLayout.setContentsMargins(0, 0, 0, 0)
-        controlLayout.addWidget(self.playButton)
-        controlLayout.addWidget(self.syncButton)
+        controlLayout.addLayout(buttonsLayout)
         controlLayout.addWidget(self.positionSlider)
 
         
-
-        #parameters Layout
-        
         #video layout
-        videoLayout = QVBoxLayout()
+        videoLayout = QHBoxLayout()
+        videoLayout.setContentsMargins(0, 0, 0, 0)
         videoLayout.addWidget(self.faceVideo.videoWidget)
         videoLayout.addWidget(self.video360.videoWidget)
         
         
+        
         layout= QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)        
         layout.addLayout(videoLayout)
         layout.addLayout(controlLayout)
         layout.addWidget(self.errorLabel)
         
-        layoutMain= QHBoxLayout()
-        layoutMain.addLayout(layout)
-        layoutMain.addLayout(self.showFrameParameters.parametersLayout)
+        graphLayout= QVBoxLayout()
+        
+        bottomLayout= QHBoxLayout()
+        bottomLayout.addWidget(self.annotationTable,70)
+
+        bottomLayout.addLayout(self.showFrameParameters.parametersLayout,30)
+        
+        upperLayout= QHBoxLayout()
+        upperLayout.addWidget(self.showParametersTable,30)
+        upperLayout.addLayout(layout,70)
+        
+        layoutMain= QVBoxLayout()
+        layoutMain.addLayout(upperLayout,70)
+        layoutMain.addLayout(bottomLayout,30)
+        
 
         # Set widget to contain window contents
         wid.setLayout(layoutMain)
