@@ -14,7 +14,8 @@ from Video import Video
 from Dataset import Dataset
 from Sync import Sync
 from FrameParameters import ShowFrameParameters
-
+from Table import Table
+from annotationSet import annotationSet
 class VideoWindow(QMainWindow):
 
     def __init__(self, parent=None):
@@ -25,8 +26,9 @@ class VideoWindow(QMainWindow):
         self.faceVideo = Video(self)
         self.video360 = Video(self)
         self.beepRef = Video(self)
-
+        self.annotationTable = Table(["Time", "Attribute", "Entry"])
         self.dataset= Dataset(self)
+        self.annotationset = annotationSet(self)
         
         
         self.showFrameParameters = ShowFrameParameters(self)
@@ -35,7 +37,7 @@ class VideoWindow(QMainWindow):
         self.playButton.setEnabled(False)
         self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
         self.playButton.clicked.connect(self.play)
-
+        
         self.syncButton= QPushButton('Sync')
         self.syncButton.clicked.connect(self.syncronize)
 
@@ -52,11 +54,13 @@ class VideoWindow(QMainWindow):
         openVideo2 = QAction(QIcon('open.png'), '&Upload 360 Video', self)        
         openRefVideo = QAction(QIcon('open.png'), '&Upload Reference Beep', self)  
         openDataset = QAction(QIcon('open.png'),'&Upload Dataset',self)
+        openAnnotationSet = QAction(QIcon('open.png'), '&Upload Annotation Set', self)
 
         openVideo1.triggered.connect(self.faceVideo.openFile)
         openVideo2.triggered.connect(self.video360.openFile)
         openRefVideo.triggered.connect(self.beepRef.openFile)
         openDataset.triggered.connect(self.dataset.openFile)
+        openAnnotationSet.triggered.connect(self.annotationset.openFile)
 
         # Create exit action
         exitAction = QAction(QIcon('exit.png'), '&Exit', self)        
@@ -72,7 +76,7 @@ class VideoWindow(QMainWindow):
         fileMenu.addAction(openVideo2)
         fileMenu.addAction(openRefVideo)
         fileMenu.addAction(openDataset)
-        
+        fileMenu.addAction(openAnnotationSet)
         
         #show menu
         showMenu= menuBar.addMenu('&Show')

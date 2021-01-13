@@ -1,10 +1,10 @@
 from PyQt5.QtWidgets import QTableWidget, QHeaderView, QTableWidgetItem
 
 
-class AnnotationTable(QTableWidget):
-    def __init__(self):
+class Table(QTableWidget):
+    def __init__(self, lablesList):
         super().__init__(1,3)
-        self.setHorizontalHeaderLabels(['Timestamp','Attribute', 'Entry'])
+        self.setHorizontalHeaderLabels(lablesList)
         self.verticalHeader().setDefaultSectionSize(50)
         self.horizontalHeader().setDefaultSectionSize(100)
         self.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
