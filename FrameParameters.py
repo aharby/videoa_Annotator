@@ -44,7 +44,7 @@ class ShowFrameParameters:
         
         
     def addParameter(self):
-        graphWidgetIndex= 2
+        graphWidgetIndex= self.mainWindow.graphWidgetIndex
         table=self.table
         text, okPressed = QInputDialog.getText(self.mainWindow, "Add Parameter","Parameter:", QLineEdit.Normal, "")
         if okPressed :
@@ -59,7 +59,7 @@ class ShowFrameParameters:
                     table.setCellWidget(rowCount,0,parameter.labelName)
                     table.setCellWidget(rowCount,1,parameter.labelValue)
                     table.setCellWidget(rowCount,2,parameter.graphButton)
-                    graphWidgetIndex+=1
+                    self.mainWindow.graphWidgetIndex+= 1
                 else:
                     QMessageBox.about(self.mainWindow, 'Add Parameter', parameterName+' already shown!')
             else:
@@ -99,11 +99,11 @@ class ShowFrameParameters:
         table.setRowCount(0)
         table.setColumnCount(3)
         table.setHorizontalHeaderLabels(['Attibute','Value','Graph'])
-        
+        graphWidgetIndex= self.mainWindow.graphWidgetIndex
         #initialize time to show
         parameterName ='Time'
-        graphWidgetIndex= 1
         parameter = Parameter(parameterName, self.mainWindow, graphWidgetIndex)
+        self.mainWindow.graphWidgetIndex+= 1
         self.parametersToShow.update({parameterName:parameter})
         rowCount = table.rowCount()
         table.insertRow(rowCount)

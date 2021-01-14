@@ -37,9 +37,11 @@ class VideoWindow(QMainWindow):
         
         #graph layout
         self.graphLayout= QStackedWidget()
+        self.graphWidgetIndex= 0
         self.graphWidget = pg.PlotWidget()
         self.graphLayout.addWidget(self.graphWidget)
         self.graphLayout.setCurrentIndex(0)
+        self.graphWidgetIndex+= 1
         
         self.showFrameParameters = ShowFrameParameters(self)
         
