@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QApplication
 import sys
+import qdarkstyle
 
 
 
@@ -10,5 +11,8 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     player = VideoWindow()
     player.resize(640, 480)
+    
+    app.setStyleSheet(qdarkstyle.load_stylesheet())
+
     player.show()
     sys.exit(app.exec_())

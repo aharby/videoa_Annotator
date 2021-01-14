@@ -8,7 +8,8 @@ class Table(QTableWidget):
         self.verticalHeader().setDefaultSectionSize(50)
         self.horizontalHeader().setDefaultSectionSize(100)
         self.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
-
+        #self.setStyleSheet("background-color: #4F4D4C;")
+        
     def addRow(self):
         rowCount = self.rowCount()
         self.insertRow(rowCount)

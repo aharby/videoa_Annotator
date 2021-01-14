@@ -1,13 +1,20 @@
 from PyQt5.QtCore import  Qt
-from PyQt5.QtWidgets import (  QHBoxLayout, QLabel,
+from PyQt5.QtWidgets import (  QTableWidget, QHBoxLayout, QLabel,
         QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget,QInputDialog,QLineEdit)
 from PyQt5.QtWidgets import QMainWindow, QAction, QMessageBox
+
+import pyqtgraph as pg
+
 class ShowFrameParameters:
     
     def __init__(self,mainWindow):
         
-        self.parametersLayout= QVBoxLayout()
         self.mainWindow = mainWindow
+
+        self.parametersLayout= QVBoxLayout()
+        
+        self.table =QTableWidget()
+        
         
         self.parametersList = []
         self.timeList = []
@@ -15,6 +22,10 @@ class ShowFrameParameters:
         self.position= 0
         
         self.parametersToShow= {}
+        
+        self.initTable()
+
+
         
         self.addButton = QPushButton("ADD")
         self.remButton = QPushButton("REMOVE")
@@ -25,6 +36,7 @@ class ShowFrameParameters:
         self.buttonsLayout.addWidget(self.addButton)
         self.buttonsLayout.addWidget(self.remButton)
         
+        self.parametersLayout.addWidget(self.table)
         self.parametersLayout.addLayout(self.buttonsLayout)
     
     def setPosition(self,position):
@@ -32,21 +44,27 @@ class ShowFrameParameters:
         
         
     def addParameter(self):
-        
+        graphWidgetIndex= 2
+        table=self.table
         text, okPressed = QInputDialog.getText(self.mainWindow, "Add Parameter","Parameter:", QLineEdit.Normal, "")
         if okPressed :
             parameterName =text
             
-        if parameterName in self.parametersList :
-            if parameterName not in self.parametersToShow.keys() :
-                parameter = Parameter(parameterName)
-                self.parametersToShow.update({parameterName:parameter})
-                self.parametersLayout.addWidget(parameter.label)
+            if parameterName in self.parametersList :
+                if parameterName not in self.parametersToShow.keys() :
+                    parameter = Parameter(parameterName, self.mainWindow, graphWidgetIndex)
+                    self.parametersToShow.update({parameterName:parameter})
+                    rowCount = table.rowCount()
+                    table.insertRow(rowCount)
+                    table.setCellWidget(rowCount,0,parameter.labelName)
+                    table.setCellWidget(rowCount,1,parameter.labelValue)
+                    table.setCellWidget(rowCount,2,parameter.graphButton)
+                    graphWidgetIndex+=1
+                else:
+                    QMessageBox.about(self.mainWindow, 'Add Parameter', parameterName+' already shown!')
             else:
-                QMessageBox.about(self.mainWindow, 'Add Parameter', parameterName+' already shown!')
-        else:
-            QMessageBox.about(self.mainWindow, 'Add Parameter', parameterName+' doesnt exist!')
-        
+                QMessageBox.about(self.mainWindow, 'Add Parameter', parameterName+' doesnt exist!')
+
         
         
     def remParameter(self):
@@ -74,21 +92,47 @@ class ShowFrameParameters:
         
         for parameter in self.parametersToShow.keys():
             parameterValue = df[df['Time']==timePosition][parameter].values[0]
-            self.parametersToShow[parameter].label.setText(parameter+': '+str(parameterValue))
-            #label= QLabel(parameter+': '+str(parameterValue))
-            #self.parametersLayout.addWidget(label)
+            self.parametersToShow[parameter].labelValue.setText(str(parameterValue))
+
+    def initTable(self):
+        table= self.table
+        table.setRowCount(0)
+        table.setColumnCount(3)
+        table.setHorizontalHeaderLabels(['Attibute','Value','Graph'])
+        
+        #initialize time to show
+        parameterName ='Time'
+        graphWidgetIndex= 1
+        parameter = Parameter(parameterName, self.mainWindow, graphWidgetIndex)
+        self.parametersToShow.update({parameterName:parameter})
+        rowCount = table.rowCount()
+        table.insertRow(rowCount)
+        table.setCellWidget(rowCount,0,parameter.labelName)
+        table.setCellWidget(rowCount,1,parameter.labelValue)
 
 
 class Parameter:
     
-    def __init__(self, parameterName):
+    def __init__(self, parameterName, mainWindow,graphWidgetIndex):
+        self.mainWindow= mainWindow
         self.parameter= parameterName
-        #self.graphButton = QPushButton()
-        #self.graphButton.clicked.connect(self.showGraph)
-        self.label= QLabel(parameterName)
-        
-    
+        self.graphWidgetIndex= graphWidgetIndex
+        self.graphButton = QPushButton("GRAPH")
+        self.graphButton.clicked.connect(self.showGraph)
+        self.labelName= QLabel(self.parameter)
+        self.labelValue= QLabel()
+        self.graphWidget= pg.PlotWidget()        
+        self.mainWindow.graphLayout.addWidget(self.graphWidget)
+
+    def showGraph(self):
+        df= self.mainWindow.dataset.dataFrame
+        self.graphWidget.plot(df['Time'],df[self.parameter])
+        self.mainWindow.graphLayout.setCurrentIndex(self.graphWidgetIndex)
         
 
-    #def showGraph(self):
         
+        
+        
+        
+
+

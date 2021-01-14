@@ -5,10 +5,13 @@
 
 from PyQt5.QtCore import  Qt
 from PyQt5.QtWidgets import (  QHBoxLayout,QGridLayout, QLabel,
-        QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget)
+        QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget,QStackedWidget)
 from PyQt5.QtWidgets import QMainWindow, QAction, QMessageBox
 from PyQt5.QtGui import QIcon
 import sys
+
+import pyqtgraph as pg
+
 
 from Video import Video
 from Dataset import Dataset
@@ -21,7 +24,7 @@ class VideoWindow(QMainWindow):
     def __init__(self, parent=None):
         super(VideoWindow, self).__init__(parent)
         self.setWindowTitle("Video Annotator") 
-
+        #self.setStyleSheet("background-color: #4F4D4C;") 
 
         self.faceVideo = Video(self)
         self.video360 = Video(self)
@@ -32,8 +35,15 @@ class VideoWindow(QMainWindow):
         self.annotationset = annotationSet(self)
         
         
+        #graph layout
+        self.graphLayout= QStackedWidget()
+        self.graphWidget = pg.PlotWidget()
+        self.graphLayout.addWidget(self.graphWidget)
+        self.graphLayout.setCurrentIndex(0)
+        
         self.showFrameParameters = ShowFrameParameters(self)
         
+
         self.playButton = QPushButton()
         self.playButton.setEnabled(False)
         self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
@@ -114,23 +124,21 @@ class VideoWindow(QMainWindow):
         videoLayout.addWidget(self.faceVideo.videoWidget)
         videoLayout.addWidget(self.video360.videoWidget)
         
-        
-        
+
         layout= QVBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)        
         layout.addLayout(videoLayout)
         layout.addLayout(controlLayout)
         layout.addWidget(self.errorLabel)
         
-        graphLayout= QVBoxLayout()
         
         bottomLayout= QHBoxLayout()
         bottomLayout.addWidget(self.annotationTable,70)
 
-        bottomLayout.addLayout(self.showFrameParameters.parametersLayout,30)
+        bottomLayout.addWidget(self.graphLayout,30)
         
         upperLayout= QHBoxLayout()
-        upperLayout.addWidget(self.showParametersTable,30)
+        upperLayout.addLayout(self.showFrameParameters.parametersLayout,30)
         upperLayout.addLayout(layout,70)
         
         layoutMain= QVBoxLayout()
