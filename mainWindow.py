@@ -29,12 +29,14 @@ class VideoWindow(QMainWindow):
         self.faceVideo = Video(self)
         self.video360 = Video(self)
         self.beepRef = Video(self)
-        self.annotationTable = Table(["Time", "Attribute", "Entry"])
-        self.showParametersTable= Table(["parameter","value"])
+        self.annotationTable = Table(self, ['Attribute', 'Start', 'End', 'Entry'])
+        self.showParametersTable= Table(self, ["parameter","value"])
         self.dataset= Dataset(self)
         self.annotationset = annotationSet(self)
         
-        
+        self.position = 0
+        self.start = 0
+
         #graph layout
         self.graphLayout= QStackedWidget()
         self.graphWidgetIndex= 0
@@ -56,8 +58,10 @@ class VideoWindow(QMainWindow):
         
         #annotation start and stop buttons
         self.startAnnotationButton = QPushButton('start')
+        self.startAnnotationButton.clicked.connect(self.updateStart)
         self.stopAnnotationButton = QPushButton('stop')
-        
+        self.stopAnnotationButton.clicked.connect(self.updateEnd)
+
         #slider
         self.positionSlider = QSlider(Qt.Horizontal)
         self.positionSlider.setRange(0, 0)
@@ -132,12 +136,17 @@ class VideoWindow(QMainWindow):
         layout.addLayout(videoLayout)
         layout.addLayout(controlLayout)
         layout.addWidget(self.errorLabel)
-        
-        
-        bottomLayout= QHBoxLayout()
-        bottomLayout.addWidget(self.annotationTable,70)
 
-        bottomLayout.addWidget(self.graphLayout,30)
+        annotationLayout = QVBoxLayout()
+        annotationLayout.addWidget(self.annotationTable)
+        annotationLayout.addLayout(self.annotationTable.buttonsLayout)
+
+        bottomLayout= QHBoxLayout()
+        bottomLayout.addWidget(self.graphLayout, 30)
+        bottomLayout.addLayout(annotationLayout, 70)
+        #bottomLayout.addWidget(self.annotationTable,70)
+
+
         
         upperLayout= QHBoxLayout()
         upperLayout.addLayout(self.showFrameParameters.parametersLayout,30)
@@ -165,8 +174,15 @@ class VideoWindow(QMainWindow):
                 QMessageBox.about(self, 'video Annotator', 'Sync process failed. Please try again.')
         else:
             QMessageBox.about(self, 'video Annotator', 'Please upload the videos first!')
-            
-    
+
+
+    def updateStart(self):
+        self.start = self.position/1000
+
+    def updateEnd(self):
+        self.play()
+        self.annotationTable.addStamp(self.start, self.position/1000)
+
     def play(self):
         self.faceVideo.play()
         self.video360.play()
@@ -177,13 +193,12 @@ class VideoWindow(QMainWindow):
         
     def positionChanged(self, position):
         self.positionSlider.setValue(position)
+        self.position = position
         self.showFrameParameters.setPosition(position)
         self.showFrameParameters.update(position)
 
-        
     def durationChanged(self, duration):
         self.positionSlider.setRange(0, duration)
-    
 
     def exitCall(self):
         sys.exit(app.exec_())

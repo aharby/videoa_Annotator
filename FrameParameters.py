@@ -103,7 +103,7 @@ class ShowFrameParameters:
         #initialize time to show
         parameterName ='Time'
         parameter = Parameter(parameterName, self.mainWindow, graphWidgetIndex)
-        self.mainWindow.graphWidgetIndex+= 1
+        self.mainWindow.graphWidgetIndex+=1
         self.parametersToShow.update({parameterName:parameter})
         rowCount = table.rowCount()
         table.insertRow(rowCount)

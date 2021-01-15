@@ -19,7 +19,7 @@ class Dataset:
 
         if fileName != '':
             self.fileName= fileName
-            self.dataFrame=  pd.read_excel(fileName,skiprows=6,engine="openpyxl")
+            self.dataFrame = pd.read_csv(fileName, skiprows=6, sep=';')
             self.mainWindow.showFrameParameters.parametersList = list(self.mainWindow.dataset.dataFrame.columns)
             self.mainWindow.showFrameParameters.timeList = list(self.mainWindow.dataset.dataFrame['Time'])
             
