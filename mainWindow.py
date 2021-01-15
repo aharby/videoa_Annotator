@@ -142,8 +142,8 @@ class VideoWindow(QMainWindow):
         annotationLayout.addLayout(self.annotationTable.buttonsLayout)
 
         bottomLayout= QHBoxLayout()
-        bottomLayout.addWidget(self.graphLayout, 30)
         bottomLayout.addLayout(annotationLayout, 70)
+        bottomLayout.addWidget(self.graphLayout, 30)
         #bottomLayout.addWidget(self.annotationTable,70)
 
 
