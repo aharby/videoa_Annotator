@@ -28,28 +28,30 @@ class annotationSet:
 
         self.dataFrame.set_index(['Parent', 'Start'], inplace=True)
         self.dataFrame.sort_index(level='Start', inplace=True)
-        self.dataFrame.drop_duplicates(inplace=True)
+        self.dataFrame.reset_index()
         self.loadAnnotation()
 
     def annotate(self, parent, start, end, entry):
+        print(self.dataFrame)
         df2 = pd.DataFrame(np.array([[parent, start, end, entry]]),
                            columns=['Parent', 'Start', 'End', 'Entry'])
-        df2.set_index(['Parent', 'Start'], inplace=True)
         self.dataFrame = self.dataFrame.append(df2)
-        self.dataFrame.sort_index(level='Start', inplace=True)
         self.dataFrame.to_csv(self.fileName, sep=';')
 
 
+    def saveDataFrame(self, df):
+        df.to_csv(self.fileName, sep=';')
+        #self.setDataFrame()
 
     def loadAnnotation(self):
         self.dataFrame.reset_index(inplace=True)
         print(self.dataFrame)
-        for x in range(0, len(self.dataFrame.index) - 1):
+        for x in range(0, len(self.dataFrame.index)):
             attribute = self.dataFrame.iat[x, 0]
             start = self.dataFrame.iat[x, 1]
             end = self.dataFrame.iat[x, 2]
-            #entry = self.dataFrame.iat[x, 3]
+            entry = self.dataFrame.iat[x, 3]
             start = "{:10.4f}".format(start)
             end = "{:10.4f}".format(end)
             print(attribute)
-            self.mainWindow.annotationTable.addRowItem(attribute, start, end, end)
+            self.mainWindow.annotationTable.addRowItem(attribute, start, end, entry)

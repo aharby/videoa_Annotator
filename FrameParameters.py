@@ -126,6 +126,7 @@ class Parameter:
 
     def showGraph(self):
         df= self.mainWindow.dataset.dataFrame
+        self.graphWidget.setTitle(self.parameter, color="w", size="10pt")
         self.graphWidget.plot(df['Time'],df[self.parameter])
         self.mainWindow.graphLayout.setCurrentIndex(self.graphWidgetIndex)
         

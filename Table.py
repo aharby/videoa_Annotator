@@ -1,4 +1,6 @@
 from PyQt5.QtWidgets import QTableWidget, QHeaderView, QTableWidgetItem, QVBoxLayout, QPushButton, QHBoxLayout
+import numpy as np
+import pandas as pd
 
 
 class Table(QTableWidget):
@@ -46,14 +48,25 @@ class Table(QTableWidget):
         self.setItem(rowCount, 0, QTableWidgetItem(attribute))
         self.setItem(rowCount, 1, QTableWidgetItem(start))
         self.setItem(rowCount, 2, QTableWidgetItem(end))
-        self.setItem(rowCount, 3, QTableWidgetItem(entry))
+        if entry != 'nan' or entry != '':
+            self.setItem(rowCount, 3, QTableWidgetItem(entry))
 
     def save(self):
-        for x in range(0, self.rowCount() - 1):
+        df = pd.DataFrame(columns=["Parent", "Start", "End", "Entry"])
+        print(self.rowCount())
+        for x in range(0, self.rowCount()):
+            entry = ''
             attribute = self.item(x, 0).text()
             start = self.item(x, 1).text()
             end = self.item(x, 2).text()
-            entry = self.item(x, 3).text()
-            self.mainWindow.annotationSet.annotate(attribute, start, end, entry)
-
-
+            if self.item(x, 3):
+                if self.item(x, 3).text():
+                    entry = self.item(x, 3).text()
+            df2 = pd.DataFrame(np.array([[attribute, start, end, entry]]),
+                               columns=['Parent', 'Start', 'End', 'Entry'])
+            df = df.append(df2)
+        print(df)
+        df.set_index(['Parent', 'Start'], inplace=True)
+        df.sort_index(level='Start', inplace=True)
+        df.reset_index()
+        self.mainWindow.annotationset.saveDataFrame(df)

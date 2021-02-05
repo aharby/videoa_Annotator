@@ -10,7 +10,7 @@ from mainWindow import VideoWindow
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     player = VideoWindow()
-    player.resize(1024, 720)
+    player.resize(1080, 600)
     
     app.setStyleSheet(qdarkstyle.load_stylesheet())
 
