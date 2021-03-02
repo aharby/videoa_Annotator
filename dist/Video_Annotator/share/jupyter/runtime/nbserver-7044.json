@@ -1,0 +1,12 @@
+{
+  "base_url": "/",
+  "hostname": "localhost",
+  "notebook_dir": "C:\\Users\\bibo\\Desktop\\Driver_Assistant",
+  "password": false,
+  "pid": 7044,
+  "port": 8888,
+  "secure": false,
+  "sock": "",
+  "token": "919f8182353f6b52479c4dbe4fa5bbc2bfb0a97fb156ad4b",
+  "url": "http://localhost:8888/"
+}

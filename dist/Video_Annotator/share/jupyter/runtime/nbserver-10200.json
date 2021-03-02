@@ -1,0 +1,12 @@
+{
+  "base_url": "/",
+  "hostname": "localhost",
+  "notebook_dir": "C:\\Users\\bibo",
+  "password": false,
+  "pid": 10200,
+  "port": 8888,
+  "secure": false,
+  "sock": "",
+  "token": "7d4a79d99b33e2201e313d8d96ca1fe6e0c81b17444030cf",
+  "url": "http://localhost:8888/"
+}

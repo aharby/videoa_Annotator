@@ -1,0 +1,12 @@
+{
+  "base_url": "/",
+  "hostname": "localhost",
+  "notebook_dir": "E:\\video_Annotator_backup",
+  "password": false,
+  "pid": 8344,
+  "port": 8888,
+  "secure": false,
+  "sock": "",
+  "token": "2684c90dd21a015f6b225bab999cd9dde31fcd3e3c10cdf1",
+  "url": "http://localhost:8888/"
+}

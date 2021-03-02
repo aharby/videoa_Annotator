@@ -1,0 +1,12 @@
+{
+  "base_url": "/",
+  "hostname": "localhost",
+  "notebook_dir": "C:\\Users\\bibo\\Desktop\\Driver_Assistant\\video_Annotator",
+  "password": false,
+  "pid": 3492,
+  "port": 8888,
+  "secure": false,
+  "sock": "",
+  "token": "a7d82aaf614b5003c10cf3eba8a13e6ff2ab81c39b397694",
+  "url": "http://localhost:8888/"
+}

@@ -1,0 +1,12 @@
+{
+  "base_url": "/",
+  "hostname": "localhost",
+  "notebook_dir": "C:\\Users\\bibo\\Desktop\\Driver_Assistant\\backup",
+  "password": false,
+  "pid": 12464,
+  "port": 8888,
+  "secure": false,
+  "sock": "",
+  "token": "7e9d35cd72dd1419e94bc47c81e5764f9c14bc50f3400982",
+  "url": "http://localhost:8888/"
+}
