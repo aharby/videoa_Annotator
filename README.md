@@ -11,6 +11,12 @@ see:http://ffmpeg.org/ffmpeg.html
 2. Make sure Numpy 1.19.5 or earlier is installed due to a bug in windows 10. (For Windows only, Microsoft is fixing this problem in a future update for windows 10)
 
 
+Running the app:
+1. Using windows executable (.exe): in repo -> dist -> Video-annotator -> video-annotator.exe
+
+can run without adding any other dependencies other than FFMPEG.
+
+2. Run using source code:
 All the needed libraries are already included in the virtual environment attached with the source code.
 -------------------------------------------------
 Main libraries:
