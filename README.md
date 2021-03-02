@@ -21,12 +21,12 @@ Main libraries:
 -------------------------------------------------
 Operation:
 1. Load the Videos and the beep reference from file tab.
-2. Load the dataset and the annotation set (AA.csv) from file tab.(please use only csv files with comma separator)
+2. Load the dataset and the annotation set (AA.csv) from file tab.(please use only csv files with semicolon separator)
 3. Press Sync.
 4. to add a parameter press add on the left side and type in the parameter name as typed in the dataset (MUST).
 5. To graph a parameter over the total length of the dataset press graph button next to the parameter.
 6. To annotate, press start button at the desired time stamp, then stop button at the end timestamp, the videos will pause and a new field for the annotation is created.
-!!Important: entry field in the annotation must not be empty before saving the project.
+7. Important: entry field in the annotation must not be empty before saving the project.
 -------------------------------------------------
 
 Good luck
