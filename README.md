@@ -17,6 +17,7 @@ Main libraries:
 1. Numpy
 2. pandas
 3. PyQt5
+4. scipy
 -------------------------------------------------
 Operation:
 1. Load the Videos and the beep reference from file tab.
